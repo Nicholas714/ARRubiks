@@ -13,6 +13,11 @@
 		43C7B8F01EECE93200C764D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43C7B8EE1EECE93200C764D4 /* Main.storyboard */; };
 		43C7B8F21EECE93200C764D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43C7B8F11EECE93200C764D4 /* Assets.xcassets */; };
 		43C7B8F51EECE93200C764D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43C7B8F31EECE93200C764D4 /* LaunchScreen.storyboard */; };
+		43C7B9011EECEAE100C764D4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B9001EECEAE100C764D4 /* Extensions.swift */; };
+		43C7B9031EECEB8400C764D4 /* ARCubeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B9021EECEB8400C764D4 /* ARCubeNode.swift */; };
+		43C7B9051EECED1C00C764D4 /* ARCubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B9041EECED1C00C764D4 /* ARCubeView.swift */; };
+		43C7B9071EECF55D00C764D4 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B9061EECF55D00C764D4 /* Coordinate.swift */; };
+		43C7B9091EECF5D800C764D4 /* Side.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B9081EECF5D800C764D4 /* Side.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		43C7B8F11EECE93200C764D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		43C7B8F41EECE93200C764D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		43C7B8F61EECE93200C764D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43C7B9001EECEAE100C764D4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		43C7B9021EECEB8400C764D4 /* ARCubeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCubeNode.swift; sourceTree = "<group>"; };
+		43C7B9041EECED1C00C764D4 /* ARCubeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCubeView.swift; sourceTree = "<group>"; };
+		43C7B9061EECF55D00C764D4 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		43C7B9081EECF5D800C764D4 /* Side.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Side.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +73,11 @@
 				43C7B8F11EECE93200C764D4 /* Assets.xcassets */,
 				43C7B8F31EECE93200C764D4 /* LaunchScreen.storyboard */,
 				43C7B8F61EECE93200C764D4 /* Info.plist */,
+				43C7B9041EECED1C00C764D4 /* ARCubeView.swift */,
+				43C7B9081EECF5D800C764D4 /* Side.swift */,
+				43C7B9001EECEAE100C764D4 /* Extensions.swift */,
+				43C7B9021EECEB8400C764D4 /* ARCubeNode.swift */,
+				43C7B9061EECF55D00C764D4 /* Coordinate.swift */,
 			);
 			path = ARRubiks;
 			sourceTree = "<group>";
@@ -139,8 +154,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43C7B9011EECEAE100C764D4 /* Extensions.swift in Sources */,
 				43C7B8ED1EECE93200C764D4 /* ViewController.swift in Sources */,
+				43C7B9031EECEB8400C764D4 /* ARCubeNode.swift in Sources */,
+				43C7B9051EECED1C00C764D4 /* ARCubeView.swift in Sources */,
+				43C7B9091EECF5D800C764D4 /* Side.swift in Sources */,
 				43C7B8E91EECE93200C764D4 /* AppDelegate.swift in Sources */,
+				43C7B9071EECF55D00C764D4 /* Coordinate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
