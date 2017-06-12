@@ -62,12 +62,13 @@ class ARCubeNode: SCNNode {
                     
                     let node = SCNNode(geometry: box)
                     node.position = SCNVector3(x, y, z)
-                    // node.name = "t"
                     
                     addChildNode(node)
                 }
             }
         }
+        
+        scramble()
     }
     
     func scramble() {
@@ -93,9 +94,7 @@ class ARCubeNode: SCNNode {
                 let container = coordinate.container()
                 container.rotation = axis
                 for node in container.childNodes {
-                    node.transform = container.convertTransform(node.transform, to: nil)
-                    node.isHidden = true
-                    node.removeFromParentNode()
+                    node.transform = container.convertTransform(node.transform, to: self)
                     self.addChildNode(node)
                 }
                 container.removeFromParentNode()

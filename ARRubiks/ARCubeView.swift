@@ -33,7 +33,7 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
         func setupCube() {
             cube = ARCubeNode()
             
-            cube.position = SCNVector3(0, -0.1, -0.4)
+            cube.position = SCNVector3(0, -0.1, -0.3)
             cube.scale = SCNVector3(0.05, 0.05, 0.05)
             
             scene.rootNode.addChildNode(cube)
@@ -112,7 +112,7 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
         
         // selects the col/row to be rotated
         if gestureRecognize.state == .began {
-            guard let node = hitResults.first?.node, node.position.y >= -2 else {
+            guard let node = hitResults.first?.node else {
                 return
             }
             
