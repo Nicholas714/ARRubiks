@@ -65,7 +65,7 @@ extension Double {
     // returns the smallest doule from a array
     func isSmallest(from: [Double]) -> Bool {
         for value in from {
-            if self < value {
+            if self > value {
                 return false
             }
         }
