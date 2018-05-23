@@ -42,6 +42,40 @@ extension SCNVector3 {
         return Double((x * x) + (y * y) + (z * z))
     }
     
+    func direction(to:SCNVector3) -> (direction:MoveDirection?,distance:Float) {
+        let xDistance = to.x - self.x
+        let yDistance = to.y - self.y
+        let zDistance = to.z - self.z
+        if abs(xDistance) > abs(yDistance) && abs(xDistance) > abs(zDistance) {
+            print("沿x轴移动，方向为",xDistance)
+            if xDistance > 0 {
+                return (MoveDirection.xPositive,xDistance)
+            }
+            else{
+                return (MoveDirection.xNegative,xDistance)
+            }
+        }
+        if abs(yDistance) > abs(xDistance) && abs(yDistance) > abs(zDistance) {
+            print("沿y轴移动，方向为",yDistance)
+            if yDistance > 0 {
+                return (MoveDirection.yPositive,yDistance)
+            } else {
+                return (MoveDirection.yNegative,yDistance)
+            }
+            
+        }
+        if abs(zDistance) > abs(xDistance) && abs(zDistance) > abs(yDistance) {
+            print("沿z轴移动，方向为",zDistance)
+            if zDistance > 0 {
+                return (MoveDirection.zPositive,zDistance)
+            } else {
+                return (MoveDirection.zNegative,zDistance)
+            }
+        }
+        print("方向无法判断")
+        return (nil,0)
+    }
+    
 }
 
 public extension Float {

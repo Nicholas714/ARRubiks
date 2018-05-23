@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01D946E220B5681B00334DB0 /* MoveDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D946E120B5681B00334DB0 /* MoveDirection.swift */; };
 		43C7B8E91EECE93200C764D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B8E81EECE93200C764D4 /* AppDelegate.swift */; };
 		43C7B8ED1EECE93200C764D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7B8EC1EECE93200C764D4 /* ViewController.swift */; };
 		43C7B8F01EECE93200C764D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43C7B8EE1EECE93200C764D4 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01D946E120B5681B00334DB0 /* MoveDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveDirection.swift; sourceTree = "<group>"; };
 		43C7B8E51EECE93200C764D4 /* ARRubiks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARRubiks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43C7B8E81EECE93200C764D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		43C7B8EC1EECE93200C764D4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				43C7B9001EECEAE100C764D4 /* Extensions.swift */,
 				43C7B9021EECEB8400C764D4 /* ARCubeNode.swift */,
 				43C7B9061EECF55D00C764D4 /* Coordinate.swift */,
+				01D946E120B5681B00334DB0 /* MoveDirection.swift */,
 			);
 			path = ARRubiks;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			files = (
 				43C7B9011EECEAE100C764D4 /* Extensions.swift in Sources */,
 				43C7B8ED1EECE93200C764D4 /* ViewController.swift in Sources */,
+				01D946E220B5681B00334DB0 /* MoveDirection.swift in Sources */,
 				43C7B9031EECEB8400C764D4 /* ARCubeNode.swift in Sources */,
 				43C7B9051EECED1C00C764D4 /* ARCubeView.swift in Sources */,
 				43C7B9091EECF5D800C764D4 /* Side.swift in Sources */,
@@ -277,10 +281,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 6B5AP37L3T;
+				DEVELOPMENT_TEAM = EFLMF46B8G;
 				INFOPLIST_FILE = ARRubiks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.grananicholas.ARRubiks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.grananicholas.ARRubiks.roylly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -291,10 +295,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 6B5AP37L3T;
+				DEVELOPMENT_TEAM = EFLMF46B8G;
 				INFOPLIST_FILE = ARRubiks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.grananicholas.ARRubiks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.grananicholas.ARRubiks.roylly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -320,6 +324,7 @@
 				43C7B8FB1EECE93200C764D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
