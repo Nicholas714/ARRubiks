@@ -76,7 +76,7 @@ class ARCubeNode: SCNNode {
             
             for _ in 0...2 {
                 var coordinate: Coordinate!
-                let randomLevel = Float(Int(arc4random_uniform(2)) - 1)
+                let randomLevel = Float(Int(arc4random_uniform(3)) - 1)
                 let randomTwist = Float(Int(arc4random_uniform(3)))
                 var axis = SCNVector4()
                 
