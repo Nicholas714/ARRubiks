@@ -33,7 +33,7 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
         func setupCube() {
             cube = ARCubeNode()
             
-            cube.position = SCNVector3(0, -0.1, -0.3)
+//            cube.position = SCNVector3(0, -0.1, -0.3)//as the init position isn't the center,so calculat the Side error. remove this to fix side calculat result
             cube.scale = SCNVector3(0.05, 0.05, 0.05)
             
             scene.rootNode.addChildNode(cube)
@@ -54,13 +54,12 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
         }
         
         let pos = from.worldCoordinates
-        
         let top = SCNVector3(0, 5, 0).distance(to: pos)
         let bottom = SCNVector3(0, -5, 0).distance(to: pos)
         let left = SCNVector3(-5, 0, 0).distance(to: pos)
         let right = SCNVector3(5, 0, 0).distance(to: pos)
-        let back = SCNVector3(0, 0, 5).distance(to: pos)
-        let front = SCNVector3(0, 0, -5).distance(to: pos)
+        let back = SCNVector3(0, 0, -5).distance(to: pos)
+        let front = SCNVector3(0, 0, 5).distance(to: pos)
         
         let all = [top, bottom, left, right, back, front]
         
