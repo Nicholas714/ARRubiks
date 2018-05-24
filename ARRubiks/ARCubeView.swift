@@ -145,7 +145,7 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
         if gestureRecognize.state == .ended {
             print("cube node nubmer:",cube.childNodes.count)
             if let container = selectedContainer {
-                cube.doRotation(container: container, dirction: moveDirection!, selectedSide: selectedSide!,finished: {
+                cube.doRotation(container: container, direction: moveDirection!, selectedSide: selectedSide!,finished: {
                     for node in self.selectedContainer?.childNodes ?? [SCNNode]() {
                         node.transform = self.selectedContainer!.convertTransform(node.transform, to: self.cube)
                         self.cube.addChildNode(node)

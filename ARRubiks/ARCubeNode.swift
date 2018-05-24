@@ -128,7 +128,7 @@ class ARCubeNode: SCNNode {
         })]))
     }
     
-    func doRotation(container: SCNNode, dirction: MoveDirection, selectedSide: Side, finished: @escaping () -> ()) {
+    func doRotation(container: SCNNode, direction: MoveDirection, selectedSide: Side, finished: @escaping () -> ()) {
         self.animating = true
         
 //        public func truncatingRemainder(dividingBy other: Self) -> Self,返回对应的余数，类似取模运算
@@ -141,14 +141,14 @@ class ARCubeNode: SCNNode {
         
         let roundedOffset = Float(round) * Float(Double.pi / 180) * (offset < 0 ? -1 : 1)
         
-        let rotation: SCNVector4? = SCNVector4.init(dirction: dirction, selectedSide: selectedSide, degrees: roundedOffset)
+        let rotation: SCNVector4? = SCNVector4.init(direction: direction, selectedSide: selectedSide, degrees: roundedOffset)
         if let rot = rotation {
             container.runAction(SCNAction.sequence([SCNAction.rotate(toAxisAngle: rot, duration: 0.2), SCNAction.run({ (node) in
                 finished()
                 self.animating = false
             })]))
         } else {
-            print("error dirction and selectedSide",dirction,selectedSide)
+            print("error dirction and selectedSide",direction,selectedSide)
             finished()
             self.animating = false
         }
