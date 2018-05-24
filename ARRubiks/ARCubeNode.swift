@@ -131,15 +131,7 @@ class ARCubeNode: SCNNode {
     func doRotation(container: SCNNode, direction: MoveDirection, selectedSide: Side, finished: @escaping () -> ()) {
         self.animating = true
         
-//        public func truncatingRemainder(dividingBy other: Self) -> Self,返回对应的余数，类似取模运算
-        //对应的移动0.05，距离，相当于90度
-        let distanceFor90:CGFloat = 0.15
-        let remainder = abs(offset/distanceFor90).truncatingRemainder(dividingBy:(distanceFor90*4))
-        let round = Int(remainder/distanceFor90 + 0.5)*90
-        
-//        let round = Int((abs(offset/0.05).truncatingRemainder(dividingBy: 0.2)) / 90.0 + 0.5) * 90
-        
-        let roundedOffset = Float(round) * Float(Double.pi / 180) * (offset < 0 ? -1 : 1)
+        let roundedOffset = Float(self.offset).offsetSwitchToRoundDegrees()
         
         let rotation: SCNVector4? = SCNVector4.init(direction: direction, selectedSide: selectedSide, degrees: roundedOffset)
         if let rot = rotation {

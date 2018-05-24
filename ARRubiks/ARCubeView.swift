@@ -11,15 +11,13 @@ import ARKit
 class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
     
     var cube: ARCubeNode!
-    var startPanPoint: CGPoint?
-    var vertical = false
-    var horizontal = false
     var selectedContainer: SCNNode?
     var selectedSide: Side?
     
     var beginPoint:SCNVector3?
     var firstHitNode:SCNNode?
-    var moveDirection:MoveDirection?
+    var currentMoveDirection:MoveDirection?
+    var oldMoveDirection:MoveDirection?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -89,8 +87,8 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
             return
         }
         
-        let p = gestureRecognize.location(in: self)
-        let hitResults = hitTest(p, options: [SCNHitTestOption.boundingBoxOnly:true])
+        let point = gestureRecognize.location(in: self)
+        let hitResults = hitTest(point, options: [SCNHitTestOption.boundingBoxOnly:true])
         
         if gestureRecognize.state == .began {
             beginPoint = hitResults.first?.worldCoordinates
@@ -98,7 +96,7 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
         } else if gestureRecognize.state == .changed || gestureRecognize.state == .ended {
             if let changedPoint = hitResults.first?.worldCoordinates {
                 if let directionAndDistance = beginPoint?.direction(to: changedPoint){
-                    moveDirection = directionAndDistance.direction
+                    currentMoveDirection = directionAndDistance.direction
                     cube.offset = CGFloat(directionAndDistance.distance)
                 }
             }
@@ -110,42 +108,37 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
                 return
             }
         }
-        
-        if gestureRecognize.state == .ended && moveDirection != nil && selectedSide != nil && firstHitNode != nil {
-            let dirction = moveDirection!
-            let hitNode = firstHitNode!
-            if dirction == .xAxis {
-                if selectedSide == .top || selectedSide == .bottom {//绕z轴旋转
-                    selectedContainer = Coordinate.zCol(cube, hitNode.position.z).container()
-//                    selectedContainer?.rotation = SCNVector4(x: 0, y: 0, z: 1, w: Float(cube.offset * CGFloat(Double.pi / 180)))
-                } else {//绕y轴旋转
-                    selectedContainer = Coordinate.yRow(cube, hitNode.position.y).container()
-//                    selectedContainer?.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(cube.offset * CGFloat(Double.pi / 180)))
+        //在确定了方向和接触面后，如果selectedContainer为空，则addChildNode,只添加一次
+        if gestureRecognize.state == .changed && selectedContainer == nil && currentMoveDirection != nil && selectedSide != nil && firstHitNode != nil {
+            oldMoveDirection = currentMoveDirection
+            selectedContainer = self.getContainerWith(parentNode:cube,hitNode:firstHitNode!,direction:currentMoveDirection!,selectedSide:selectedSide!)
+            cube.addChildNode(selectedContainer!)
+        }
+        //当检测的移动方向发生改变时，需要重新设置selectedContainer
+        if let oldDirection = oldMoveDirection {
+            if oldDirection != currentMoveDirection{
+                selectedContainer?.rotation = SCNVector4()//还原旋转方向
+                for node in self.selectedContainer?.childNodes ?? [SCNNode]() {
+                    self.cube.addChildNode(node)
                 }
-            } else if dirction == .yAxis {
-                if selectedSide == .front || selectedSide == .back { //绕x轴旋转
-                    selectedContainer = Coordinate.xCol(cube, hitNode.position.x).container()
-//                    selectedContainer?.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(cube.offset * CGFloat(Double.pi / 180)))
-                } else {//绕z轴旋转
-                    selectedContainer = Coordinate.zCol(cube, hitNode.position.z).container()
-//                    selectedContainer?.rotation = SCNVector4(x: 0, y: 0, z: 1, w: Float(cube.offset * CGFloat(Double.pi / 180)))
-                }
-            } else if dirction == .zAxis {
-                if selectedSide == .top || selectedSide == .bottom {//绕x轴旋转
-                    selectedContainer = Coordinate.xCol(cube, hitNode.position.x).container()
-//                    selectedContainer?.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(cube.offset * CGFloat(Double.pi / 180)))
-                } else {//绕y轴旋转
-                    selectedContainer = Coordinate.yRow(cube, hitNode.position.y).container()
-//                    selectedContainer?.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(cube.offset * CGFloat(Double.pi / 180)))
+                self.selectedContainer?.removeFromParentNode()
+                if currentMoveDirection != nil && selectedSide != nil && firstHitNode != nil {
+                    oldMoveDirection = currentMoveDirection
+                    selectedContainer = self.getContainerWith(parentNode: cube, hitNode: firstHitNode!, direction: currentMoveDirection!, selectedSide: selectedSide!)
+                    cube.addChildNode(selectedContainer!)
                 }
             }
-            cube.addChildNode(selectedContainer!)
+        }
+        //当selectedContainer不空时，实时修改旋转的角度
+        if (gestureRecognize.state == .changed || gestureRecognize.state == .ended) && selectedContainer != nil {
+            let rotation: SCNVector4? = SCNVector4.init(direction: currentMoveDirection!, selectedSide: selectedSide!, degrees: Float(cube.offset).offsetSwitchToDegrees())
+            selectedContainer?.rotation = rotation!
         }
         
         if gestureRecognize.state == .ended {
             print("cube node nubmer:",cube.childNodes.count)
             if let container = selectedContainer {
-                cube.doRotation(container: container, direction: moveDirection!, selectedSide: selectedSide!,finished: {
+                cube.doRotation(container: container, direction: currentMoveDirection!, selectedSide: selectedSide!,finished: {
                     for node in self.selectedContainer?.childNodes ?? [SCNNode]() {
                         node.transform = self.selectedContainer!.convertTransform(node.transform, to: self.cube)
                         self.cube.addChildNode(node)
@@ -153,11 +146,9 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
                     self.selectedContainer?.removeFromParentNode()
                     print("after rotation ,cube node number:",self.cube.childNodes.count)
                     self.selectedContainer = nil
-                    self.moveDirection = nil;
+                    self.currentMoveDirection = nil;
+                    self.oldMoveDirection = nil
                     self.selectedSide = nil
-                    self.startPanPoint = nil
-                    self.vertical = false
-                    self.horizontal = false
                     self.cube.offset = 0;
                     self.cube.animating = false
                 })
@@ -169,6 +160,30 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getContainerWith(parentNode:SCNNode,hitNode:SCNNode,direction:MoveDirection,selectedSide:Side) -> SCNNode? {
+        var selectedContainer:SCNNode?
+        if direction == .xAxis {
+            if selectedSide == .top || selectedSide == .bottom {//绕z轴旋转
+                selectedContainer = Coordinate.zCol(parentNode, hitNode.position.z).container()
+            } else {//绕y轴旋转
+                selectedContainer = Coordinate.yRow(parentNode, hitNode.position.y).container()
+            }
+        } else if direction == .yAxis {
+            if selectedSide == .front || selectedSide == .back { //绕x轴旋转
+                selectedContainer = Coordinate.xCol(parentNode, hitNode.position.x).container()
+            } else {//绕z轴旋转
+                selectedContainer = Coordinate.zCol(parentNode, hitNode.position.z).container()
+            }
+        } else if direction == .zAxis {
+            if selectedSide == .top || selectedSide == .bottom {//绕x轴旋转
+                selectedContainer = Coordinate.xCol(parentNode, hitNode.position.x).container()
+            } else {//绕y轴旋转
+                selectedContainer = Coordinate.yRow(parentNode, hitNode.position.y).container()
+            }
+        }
+        return selectedContainer
     }
     
 }

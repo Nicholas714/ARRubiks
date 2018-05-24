@@ -114,6 +114,21 @@ public extension Float {
         return abs(self - to) < 0.05
     }
     
+    func offsetSwitchToRoundDegrees() -> Float {
+        //对应的移动distanceFor90 距离，相当于旋转90度
+        let distanceFor90:CGFloat = 0.2
+        let remainder = abs(CGFloat(self) / distanceFor90).truncatingRemainder(dividingBy:(distanceFor90*4))
+        let round = Int(remainder / distanceFor90 + 0.5)*90
+        return Float(round) * Float(Double.pi / 180) * (self < 0 ? -1 : 1)
+    }
+    
+    func offsetSwitchToDegrees() -> Float {
+        //对应的移动distanceFor90 距离，相当于旋转90度
+        let distanceFor90:CGFloat = 0.2
+        return Float(CGFloat(self)/distanceFor90)*90*Float(Double.pi/180)
+    }
+    
+    
     // returns a random rotation in 90 degree intervals: 0, 90, 270, 360
     static func randomRotation() -> Float {
         // random between 1 and 359
