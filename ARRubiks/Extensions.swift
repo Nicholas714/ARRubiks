@@ -48,34 +48,64 @@ extension SCNVector3 {
         let zDistance = to.z - self.z
         if abs(xDistance) > abs(yDistance) && abs(xDistance) > abs(zDistance) {
             print("沿x轴移动，方向为",xDistance)
-            if xDistance > 0 {
-                return (MoveDirection.xPositive,xDistance)
-            }
-            else{
-                return (MoveDirection.xNegative,xDistance)
-            }
+            return (MoveDirection.xAxis,xDistance)
         }
         if abs(yDistance) > abs(xDistance) && abs(yDistance) > abs(zDistance) {
             print("沿y轴移动，方向为",yDistance)
-            if yDistance > 0 {
-                return (MoveDirection.yPositive,yDistance)
-            } else {
-                return (MoveDirection.yNegative,yDistance)
-            }
-            
+            return (MoveDirection.yAxis,yDistance)
         }
         if abs(zDistance) > abs(xDistance) && abs(zDistance) > abs(yDistance) {
             print("沿z轴移动，方向为",zDistance)
-            if zDistance > 0 {
-                return (MoveDirection.zPositive,zDistance)
-            } else {
-                return (MoveDirection.zNegative,zDistance)
-            }
+            return (MoveDirection.zAxis,zDistance)
         }
         print("方向无法判断")
         return (nil,0)
     }
+}
+
+extension SCNVector4 {
     
+    /// create a scnVector4 for rotation
+    ///
+    /// - Parameters:
+    ///   - dirction: user move direction
+    ///   - selectedSide: touch side
+    ///   - degrees: move degrees in radian
+    init(direction: MoveDirection, selectedSide: Side, degrees:Float) {
+        self.init()
+        switch direction {
+        case .xAxis:
+            switch selectedSide{
+            //绕z轴旋转
+            case .top: self.init(0, 0, 1, -degrees)
+            case .bottom: self.init(0, 0, 1, degrees)
+            //绕y轴旋转
+            case .front: self.init(0, 1, 0, degrees)
+            case .back: self.init(0, 1, 0, -degrees)
+            case .left,.right: self.init()
+            }
+        case .yAxis:
+            switch selectedSide{
+            //绕x轴旋转
+            case .front: self.init(1, 0, 0, -degrees)
+            case .back: self.init(1, 0, 0, degrees)
+            //绕z轴旋转
+            case .right: self.init(0, 0, 1, degrees)
+            case .left: self.init(0, 0, 1, -degrees)
+            case .top,.bottom: self.init()
+            }
+        case .zAxis:
+            switch selectedSide{
+            //绕x轴旋转
+            case .top: self.init(1, 0, 0, degrees)
+            case .bottom: self.init(1, 0, 0, -degrees)
+            //绕y轴旋转
+            case .right: self.init(0, 1, 0, -degrees)
+            case .left: self.init(0, 1, 0, degrees)
+            case .front,.back: self.init()
+            }
+        }
+    }
 }
 
 public extension Float {

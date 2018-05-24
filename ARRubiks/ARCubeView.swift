@@ -114,7 +114,7 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
         if gestureRecognize.state == .ended && moveDirection != nil && selectedSide != nil && firstHitNode != nil {
             let dirction = moveDirection!
             let hitNode = firstHitNode!
-            if dirction == .xPositive || dirction == .xNegative {
+            if dirction == .xAxis {
                 if selectedSide == .top || selectedSide == .bottom {//绕z轴旋转
                     selectedContainer = Coordinate.zCol(cube, hitNode.position.z).container()
 //                    selectedContainer?.rotation = SCNVector4(x: 0, y: 0, z: 1, w: Float(cube.offset * CGFloat(Double.pi / 180)))
@@ -122,7 +122,7 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
                     selectedContainer = Coordinate.yRow(cube, hitNode.position.y).container()
 //                    selectedContainer?.rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(cube.offset * CGFloat(Double.pi / 180)))
                 }
-            } else if dirction == .yPositive || dirction == .yNegative{
+            } else if dirction == .yAxis {
                 if selectedSide == .front || selectedSide == .back { //绕x轴旋转
                     selectedContainer = Coordinate.xCol(cube, hitNode.position.x).container()
 //                    selectedContainer?.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(cube.offset * CGFloat(Double.pi / 180)))
@@ -130,7 +130,7 @@ class ARCubeView: ARSCNView, UIGestureRecognizerDelegate {
                     selectedContainer = Coordinate.zCol(cube, hitNode.position.z).container()
 //                    selectedContainer?.rotation = SCNVector4(x: 0, y: 0, z: 1, w: Float(cube.offset * CGFloat(Double.pi / 180)))
                 }
-            } else if dirction == .zPositive || dirction == .zNegative {
+            } else if dirction == .zAxis {
                 if selectedSide == .top || selectedSide == .bottom {//绕x轴旋转
                     selectedContainer = Coordinate.xCol(cube, hitNode.position.x).container()
 //                    selectedContainer?.rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(cube.offset * CGFloat(Double.pi / 180)))

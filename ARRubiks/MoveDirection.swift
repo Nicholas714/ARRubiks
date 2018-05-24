@@ -8,10 +8,7 @@
 
 public enum MoveDirection {
     
-    case xPositive
-    case xNegative
-    case yPositive
-    case yNegative
-    case zPositive
-    case zNegative
+    case xAxis
+    case yAxis
+    case zAxis
 }

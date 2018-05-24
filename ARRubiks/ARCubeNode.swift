@@ -141,41 +141,9 @@ class ARCubeNode: SCNNode {
         
         let roundedOffset = Float(round) * Float(Double.pi / 180) * (offset < 0 ? -1 : 1)
         
-        var rotation: SCNVector4?
-        
-        if dirction == .xPositive || dirction == .xNegative {
-            if selectedSide == .top {//绕z轴旋转
-                rotation = SCNVector4(x: 0, y: 0, z: 1, w: Float(-roundedOffset))
-            } else if  selectedSide == .bottom {
-                rotation = SCNVector4(x: 0, y: 0, z: 1, w: Float(roundedOffset))
-            } else if selectedSide == .front {//绕y轴旋转
-                rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(roundedOffset))
-            } else if selectedSide == .back {
-                 rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(-roundedOffset))
-            }
-        } else if dirction == .yPositive || dirction == .yNegative{
-            if selectedSide == .front { //绕x轴旋转
-                rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(-roundedOffset))
-            } else if selectedSide == .back {
-                rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(roundedOffset))
-            } else if selectedSide == .right{//绕z轴旋转
-                rotation = SCNVector4(x: 0, y: 0, z: 1, w: Float(roundedOffset))
-            } else if selectedSide == .left {
-                rotation = SCNVector4(x: 0, y: 0, z: 1, w: Float(-roundedOffset))
-            }
-        } else if dirction == .zPositive || dirction == .zNegative {
-            if selectedSide == .top {//绕x轴旋转
-                rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(roundedOffset))
-            } else if selectedSide == .bottom {
-                rotation = SCNVector4(x: 1, y: 0, z: 0, w: Float(-roundedOffset))
-            } else if selectedSide == .right {//绕y轴旋转
-                rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(-roundedOffset))
-            } else if selectedSide == .left {
-                rotation = SCNVector4(x: 0, y: 1, z: 0, w: Float(roundedOffset))
-            }
-        }
+        let rotation: SCNVector4? = SCNVector4.init(dirction: dirction, selectedSide: selectedSide, degrees: roundedOffset)
         if let rot = rotation {
-            container.runAction(SCNAction.sequence([SCNAction.rotate(toAxisAngle: rot, duration: 0.5), SCNAction.run({ (node) in
+            container.runAction(SCNAction.sequence([SCNAction.rotate(toAxisAngle: rot, duration: 0.2), SCNAction.run({ (node) in
                 finished()
                 self.animating = false
             })]))
