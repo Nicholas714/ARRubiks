@@ -47,15 +47,15 @@ extension SCNVector3 {
         let yDistance = to.y - self.y
         let zDistance = to.z - self.z
         if abs(xDistance) > abs(yDistance) && abs(xDistance) > abs(zDistance) {
-            print("沿x轴移动，方向为",xDistance)
+//            print("沿x轴移动，方向为",xDistance)
             return (MoveDirection.xAxis,xDistance)
         }
         if abs(yDistance) > abs(xDistance) && abs(yDistance) > abs(zDistance) {
-            print("沿y轴移动，方向为",yDistance)
+//            print("沿y轴移动，方向为",yDistance)
             return (MoveDirection.yAxis,yDistance)
         }
         if abs(zDistance) > abs(xDistance) && abs(zDistance) > abs(yDistance) {
-            print("沿z轴移动，方向为",zDistance)
+//            print("沿z轴移动，方向为",zDistance)
             return (MoveDirection.zAxis,zDistance)
         }
         print("方向无法判断")
