@@ -42,6 +42,70 @@ extension SCNVector3 {
         return Double((x * x) + (y * y) + (z * z))
     }
     
+    func direction(to:SCNVector3) -> (direction:MoveDirection?,distance:Float) {
+        let xDistance = to.x - self.x
+        let yDistance = to.y - self.y
+        let zDistance = to.z - self.z
+        if abs(xDistance) > abs(yDistance) && abs(xDistance) > abs(zDistance) {
+//            print("沿x轴移动，方向为",xDistance)
+            return (MoveDirection.xAxis,xDistance)
+        }
+        if abs(yDistance) > abs(xDistance) && abs(yDistance) > abs(zDistance) {
+//            print("沿y轴移动，方向为",yDistance)
+            return (MoveDirection.yAxis,yDistance)
+        }
+        if abs(zDistance) > abs(xDistance) && abs(zDistance) > abs(yDistance) {
+//            print("沿z轴移动，方向为",zDistance)
+            return (MoveDirection.zAxis,zDistance)
+        }
+        print("方向无法判断")
+        return (nil,0)
+    }
+}
+
+extension SCNVector4 {
+    
+    /// create a scnVector4 for rotation
+    ///
+    /// - Parameters:
+    ///   - dirction: user move direction
+    ///   - selectedSide: touch side
+    ///   - degrees: move degrees in radian
+    init(direction: MoveDirection, selectedSide: Side, degrees:Float) {
+        self.init()
+        switch direction {
+        case .xAxis:
+            switch selectedSide{
+            //绕z轴旋转
+            case .top: self.init(0, 0, 1, -degrees)
+            case .bottom: self.init(0, 0, 1, degrees)
+            //绕y轴旋转
+            case .front: self.init(0, 1, 0, degrees)
+            case .back: self.init(0, 1, 0, -degrees)
+            case .left,.right: self.init()
+            }
+        case .yAxis:
+            switch selectedSide{
+            //绕x轴旋转
+            case .front: self.init(1, 0, 0, -degrees)
+            case .back: self.init(1, 0, 0, degrees)
+            //绕z轴旋转
+            case .right: self.init(0, 0, 1, degrees)
+            case .left: self.init(0, 0, 1, -degrees)
+            case .top,.bottom: self.init()
+            }
+        case .zAxis:
+            switch selectedSide{
+            //绕x轴旋转
+            case .top: self.init(1, 0, 0, degrees)
+            case .bottom: self.init(1, 0, 0, -degrees)
+            //绕y轴旋转
+            case .right: self.init(0, 1, 0, -degrees)
+            case .left: self.init(0, 1, 0, degrees)
+            case .front,.back: self.init()
+            }
+        }
+    }
 }
 
 public extension Float {
@@ -49,6 +113,21 @@ public extension Float {
     func isClose(to: Float) -> Bool {
         return abs(self - to) < 0.05
     }
+    
+    func offsetSwitchToRoundDegrees() -> Float {
+        //对应的移动distanceFor90 距离，相当于旋转90度
+        let distanceFor90:CGFloat = 0.2
+        let remainder = abs(CGFloat(self) / distanceFor90).truncatingRemainder(dividingBy:(distanceFor90*4))
+        let round = Int(remainder / distanceFor90 + 0.5)*90
+        return Float(round) * Float(Double.pi / 180) * (self < 0 ? -1 : 1)
+    }
+    
+    func offsetSwitchToDegrees() -> Float {
+        //对应的移动distanceFor90 距离，相当于旋转90度
+        let distanceFor90:CGFloat = 0.2
+        return Float(CGFloat(self)/distanceFor90)*90*Float(Double.pi/180)
+    }
+    
     
     // returns a random rotation in 90 degree intervals: 0, 90, 270, 360
     static func randomRotation() -> Float {
@@ -65,7 +144,7 @@ extension Double {
     // returns the smallest doule from a array
     func isSmallest(from: [Double]) -> Bool {
         for value in from {
-            if self < value {
+            if self > value {
                 return false
             }
         }

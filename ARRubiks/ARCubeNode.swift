@@ -76,7 +76,7 @@ class ARCubeNode: SCNNode {
             
             for _ in 0...2 {
                 var coordinate: Coordinate!
-                let randomLevel = Float(Int(arc4random_uniform(2)) - 1)
+                let randomLevel = Float(Int(arc4random_uniform(3)) - 1)
                 let randomTwist = Float(Int(arc4random_uniform(3)))
                 var axis = SCNVector4()
                 
@@ -126,6 +126,25 @@ class ARCubeNode: SCNNode {
             finished()
             self.animating = false
         })]))
+    }
+    
+    func doRotation(container: SCNNode, direction: MoveDirection, selectedSide: Side, finished: @escaping () -> ()) {
+        self.animating = true
+        
+        let roundedOffset = Float(self.offset).offsetSwitchToRoundDegrees()
+        
+        let rotation: SCNVector4? = SCNVector4.init(direction: direction, selectedSide: selectedSide, degrees: roundedOffset)
+        if let rot = rotation {
+            container.runAction(SCNAction.sequence([SCNAction.rotate(toAxisAngle: rot, duration: 0.2), SCNAction.run({ (node) in
+                finished()
+                self.animating = false
+            })]))
+        } else {
+            print("error dirction and selectedSide",direction,selectedSide)
+            finished()
+            self.animating = false
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
